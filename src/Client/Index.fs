@@ -4,8 +4,10 @@ open Elmish
 open Fable.Remoting.Client
 open Shared
 
+//Model will hold our current state
 type Model = { Todos: Todo list; Input: string }
 
+//Msg tell us the nature of the change that we would apply to the current state
 type Msg =
     | GotTodos of Todo list
     | SetInput of string
@@ -25,12 +27,12 @@ let init () : Model * Cmd<Msg> =
 
     model, cmd
 
-let update (msg: Msg) (model: Model) : Model * Cmd<Msg> =
+let update msg model : Model * Cmd<Msg> =
     match msg with
     | GotTodos todos -> { model with Todos = todos }, Cmd.none
     | SetInput value -> { model with Input = value }, Cmd.none
     | AddTodo ->
-        let todo = Todo.create model.Input
+        let todo = MyTodo.create model.Input
 
         let cmd =
             Cmd.OfAsync.perform todosApi.addTodo todo AddedTodo
@@ -82,7 +84,7 @@ let containerBox (model: Model) (dispatch: Msg -> unit) =
                 Bulma.control.p [
                     Bulma.button.a [
                         color.isPrimary
-                        prop.disabled (Todo.isValid model.Input |> not)
+                        prop.disabled (MyTodo.isValid model.Input |> not)
                         prop.onClick (fun _ -> dispatch AddTodo)
                         prop.text "Add"
                     ]

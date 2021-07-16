@@ -12,19 +12,19 @@ type Storage() =
     member __.GetTodos() = List.ofSeq todos
 
     member __.AddTodo(todo: Todo) =
-        match Todo.isValid todo.Description with
+        match MyTodo.isValid todo.Description with
         | true -> todos.Add todo |> Ok
         | _    -> Error "Invalid todo"
 
 let storage = Storage()
 
-storage.AddTodo(Todo.create "Create new SAFE project")
+storage.AddTodo(MyTodo.create "Create new SAFE project")
 |> ignore
 
-storage.AddTodo(Todo.create "Write your app")
+storage.AddTodo(MyTodo.create "Write your app")
 |> ignore
 
-storage.AddTodo(Todo.create "Ship it !!!")
+storage.AddTodo(MyTodo.create "Ship it !!!")
 |> ignore
 
 let todosApi =
