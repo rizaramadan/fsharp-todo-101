@@ -7,8 +7,10 @@ module Route =
     let builder typeName methodName =
         sprintf "/api/%s/%s" typeName methodName
 
+//type Todo is data structure for both server and client
 type Todo = { Id: Guid; Description: string }
 
+//MyTodo helper to create and validate todo
 module MyTodo =
     let isValid description =
         String.IsNullOrWhiteSpace description |> not
@@ -17,6 +19,7 @@ module MyTodo =
         { Id = Guid.NewGuid()
           Description = description }
 
+//ITodosApi is the interface for the RPC, Server will implement it and client will calling it
 type ITodosApi =
     { getTodos: unit -> Async<Todo list>
       addTodo: Todo -> Async<Todo> }

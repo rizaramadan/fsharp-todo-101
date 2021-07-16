@@ -37,12 +37,14 @@ let todosApi =
                   | Error e -> return failwith e
               } }
 
+//webApp is a standard Giraffe libraries webApp
 let webApp =
     Remoting.createApi ()
     |> Remoting.withRouteBuilder Route.builder
     |> Remoting.fromValue todosApi
     |> Remoting.buildHttpHandler
 
+//app is commond saturn application
 let app =
     application {
         url "http://0.0.0.0:8085"
